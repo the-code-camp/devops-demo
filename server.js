@@ -16,6 +16,10 @@ app.get('/admin', function (req, res){
   res.sendFile(__dirname + '/public/admin.html');
 });
 
+app.get('/feedback', function (req, res){
+  res.sendFile(__dirname + '/public/feedback.html');
+});
+
 const port = process.env.PORT || 3000;
 
 const server = http.createServer(app)
@@ -33,7 +37,6 @@ function countVotes(votes) {
       C: 0,
       D: 0
   };
-  console.log(votes);
   for (var vote in votes) {
     voteCount[votes[vote]]++;
   }
@@ -64,6 +67,11 @@ io.on('connection', function (socket) {
       let voteCount = updateVotes(votes[socket.id]);
       io.emit('voteCount', voteCount);
       io.emit('adminUpdate', _.values(voteCount));
+    }
+    if(channel === 'showFeedback') {
+      if(message === 'showFeedback') {
+        io.emit('showFeedbackForm', true);
+      }
     }
   });
 

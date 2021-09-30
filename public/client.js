@@ -8,6 +8,16 @@ const voteContainer = document.getElementById('personal-vote');
 
 socket.on('usersConnected', function (count) {
   connectionCount.innerText = 'Connected Users: ' + count;
+  let hasVoted = sessionStorage.getItem('hasVoted');
+  let feedbackEnabled = sessionStorage.getItem('feedbackEnabled');
+  if(feedbackEnabled && feedbackEnabled === 'true') {
+    let iframeExists = document.querySelector("#formFrame");
+    if(!iframeExists) {
+      showFeedbackForm();
+    }
+  } else if(hasVoted) {
+    thanks();
+  }
 });
 
 for (var i = 0; i < radios.length; i++) {
@@ -23,17 +33,43 @@ voteButton.addEventListener('click', function () {
 
 
 socket.on('peronalVote', function (ownVote) {
-  console.log("own vote:", ownVote);
   voteContainer.style.display = 'block';
   personalVote.innerText = ownVote;
+  thanks();
 });
 
-function showVote() {
-  // for (var i = 0; i < buttons.length; i++) {
-    // buttons[i].addEventListener('click', function () {
-    //   voteContainer.style.display = 'block';
-    // });
-  // }
+socket.on('showFeedbackForm', function () {
+  showFeedbackForm();
+});
+
+function thanks() {
+  sessionStorage.setItem('hasVoted', true);
+  const quizOptions = document.querySelector('#quiz-options');
+  quizOptions.innerHTML = '\
+      <div class="h-100 p-5 bg-light border rounded-3" style="margin: 15px"> \
+        <h2 style="text-align: center">Thank you</h2> \
+        <p>Your vote is going to make a difference</p> \
+      </div>';
 }
 
-showVote();
+function showFeedbackForm() {
+  const quizOptions = document.querySelector('#quiz-options');
+  const question = document.querySelector('#question');
+  const personalVote = document.querySelector('#personal-vote');
+  const connectionCount = document.querySelector('#connection-count');
+  sessionStorage.setItem('feedbackEnabled', true);
+
+  if(question) {
+    question.remove();
+  }
+  if(personalVote) {
+    personalVote.remove();
+  }
+  if(connectionCount) {
+    connectionCount.remove();
+  }
+
+  quizOptions.innerHTML = '<iframe\
+    src="https://docs.google.com/forms/d/e/1FAIpQLScEUAY-v6MF9EE4V9qRlJt43f-GKB40Hj3UbmzbZXCyNcwehQ/viewform?embedded=true"\
+    width="360" height="2000" frameBorder="0" marginHeight="0" marginWidth="0" id="formFrame">Loading…</iframe>';
+}
