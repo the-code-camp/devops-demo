@@ -1,0 +1,24 @@
+{
+  "name": "ask-the-audience",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "author": "kirsten swanson",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "lodash": "^4.17.2",
+    "socket.io": "^4.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.1.2",
+    "should": "^13.2.3",
+    "socket.io-client": "^4.2.0",
+    "supertest": "^6.1.6"
+  }
+}
