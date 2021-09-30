@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin Console</title>
+  <script src='https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js'></script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+<div class="chart-container" style="position: relative; height:40vh; width:80vw; margin-top: 50px; margin-left: 20px">
+  <canvas id="chart"></canvas>
+  <section id="votes" style="margin-left: 40px">
+    <ul>
+      <li class="a-total">Total A Votes: 0</li>
+      <li class="b-total">Total B Votes: 0</li>
+      <li class="c-total">Total C Votes: 0</li>
+      <li class="d-total">Total D Votes: 0</li>
+    </ul>
+  </section>
+</div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/admin.js"></script>
+
+</body>
+</html>
