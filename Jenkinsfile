@@ -2,7 +2,7 @@ def version = ''
 def project_name = 'devops-demo'
 
 pipeline {
-  agent any
+  agent { label 'jenkins-agent-ssh-nodejs' }
   stages {
       stage('Build') {
         steps {
@@ -44,7 +44,6 @@ pipeline {
         steps {
           echo 'packaging codecamp web application...'
           zip zipFile: "target/devops-demo-${version}.zip", archive: false, dir: ""
-          sh 'mkdir -p /tmp/builds && cp -R target /tmp/builds/'
         }
       }
       stage('Release Artifact') {
@@ -55,7 +54,7 @@ pipeline {
       }
       stage ('Deploy to AWS Cloud') {
         steps{
-          sh "/opt/bin/deploy-demo.sh '${version}'"
+          sshPublisher(publishers: [sshPublisherDesc(configName: 'Thecodecamp', transfers: [sshTransfer(cleanRemote: true, excludes: '', execCommand: "/opt/bin/deploy-devopsdemo.tk.sh ${version}", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/builds/target/devopsdemo', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'target/*.zip')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
         }
       }
   }
