@@ -54,7 +54,7 @@ pipeline {
       }
       stage ('Deploy to AWS Cloud') {
         steps{
-          sshPublisher(publishers: [sshPublisherDesc(configName: 'Thecodecamp', transfers: [sshTransfer(cleanRemote: true, excludes: '', execCommand: "/opt/bin/deploy-devopsdemo.tk.sh ${version}", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/builds/target/devopsdemo', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'target/*.zip')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
+          sshPublisher(publishers: [sshPublisherDesc(configName: 'Thecodecamp', transfers: [sshTransfer(cleanRemote: true, excludes: '', execCommand: "/opt/bin/deploy-devopsdemo.tk.sh ${version}", execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/builds/devopsdemo', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'target/*.zip')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
         }
       }
   }
